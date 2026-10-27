@@ -53,10 +53,7 @@ export function buildSeed(): DB {
   try {
     // Products
     PRODUCTS.forEach(([name, cat, unit, min, target], i) => as("Administrador", daysAgo(40), () => {
-      const p = L.createProduct(db, { sku: `CV-${String(1001 + i)}`, name, categoryId: db.categories.find((c) => c.name === cat)!.id, unit, minStock: min, targetStock: target, active: true });
-      db.products[db.products.length - 1].id = `p${i + 1}`;
-      db.inventory.filter((x) => x.productId === p.id).forEach((x) => { x.productId = `p${i + 1}`; });
-      db.alerts.filter((a) => a.productId === p.id).forEach((a) => { a.productId = `p${i + 1}`; });
+      L.createProduct(db, { sku: `CV-${String(1001 + i)}`, name, categoryId: db.categories.find((c) => c.name === cat)!.id, unit, minStock: min, targetStock: target, active: true }, `p${i + 1}`);
     }));
     db.alerts = []; // initial empty-stock alerts are superseded by opening balances
     // Opening balances

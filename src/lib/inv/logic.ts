@@ -283,9 +283,9 @@ function validateProduct(db: DB, i: ProductInput, id?: string) {
   if (db.products.some((p) => p.sku === sku && p.id !== id)) fail(`El SKU ${sku} ya existe`);
   return sku;
 }
-export function createProduct(db: DB, i: ProductInput) {
+export function createProduct(db: DB, i: ProductInput, fixedId?: string) {
   const sku = validateProduct(db, i);
-  const p: Product = { ...i, sku, name: i.name.trim(), id: uid(), createdAt: nowIso() };
+  const p: Product = { ...i, sku, name: i.name.trim(), id: fixedId ?? uid(), createdAt: nowIso() };
   db.products.push(p);
   for (const l of db.locations) {
     const row = { id: uid(), productId: p.id, locationId: l.id, stock: 0, reserved: 0, physical: null, lastCountAt: null };
