@@ -8,9 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Confirm, Field, fmtDate, locationOptions, PageHeader, Panel, Pill, productOptions, Select, TableWrap } from "@/components/inv/ui";
 
-type Search = { productId?: string; toId?: string; qty?: number };
+type Search = { productId?: string | undefined; toId?: string | undefined; qty?: number | undefined };
 export const Route = createFileRoute("/transferencias")({
-  validateSearch: (s: Record<string, unknown>): Search => ({
+  validateSearch: (s: { productId?: unknown; locationId?: unknown; toId?: unknown; qty?: unknown }): Search => ({
     productId: typeof s.productId === "string" ? s.productId : undefined,
     toId: typeof s.toId === "string" ? s.toId : undefined,
     qty: typeof s.qty === "number" ? s.qty : undefined,

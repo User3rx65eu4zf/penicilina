@@ -92,7 +92,7 @@ export function syncTransferAlerts(db: DB, now = new Date()) {
 // ---------- Movements ----------
 function applyMovement(db: DB, args: {
   productId: string; locationId: string; quantity: number; direction: "in" | "out"; type: MovementType;
-  reason: string; note?: string; from?: string | null; to?: string | null; refType?: string; refId?: string; code?: string;
+  reason: string; note?: string | undefined; from?: string | null | undefined; to?: string | null | undefined; refType?: string | undefined; refId?: string | undefined; code?: string | undefined;
 }): Movement {
   const row = getRow(db, args.productId, args.locationId);
   const before = row.stock;
@@ -113,7 +113,7 @@ function applyMovement(db: DB, args: {
 
 export interface MovementInput {
   type: "Entrada" | "Salida" | "Ajuste positivo" | "Ajuste negativo";
-  productId: string; locationId: string; quantity: number; reason: string; note?: string;
+  productId: string; locationId: string; quantity: number; reason: string; note?: string | undefined;
 }
 export function registerMovement(db: DB, i: MovementInput) {
   assertQty(i.quantity);
@@ -130,7 +130,7 @@ export function registerMovement(db: DB, i: MovementInput) {
 }
 
 // ---------- Transfers ----------
-export function createTransfer(db: DB, i: { productId: string; fromId: string; toId: string; quantity: number; note?: string }) {
+export function createTransfer(db: DB, i: { productId: string; fromId: string; toId: string; quantity: number; note?: string | undefined }) {
   assertQty(i.quantity);
   if (i.fromId === i.toId) fail("Origen y destino deben ser distintos");
   const p = getProduct(db, i.productId);
@@ -185,7 +185,7 @@ export function cancelTransfer(db: DB, id: string) {
 }
 
 // ---------- Physical counts ----------
-export function registerCount(db: DB, i: { productId: string; locationId: string; counted: number; note?: string }) {
+export function registerCount(db: DB, i: { productId: string; locationId: string; counted: number; note?: string | undefined }) {
   if (!Number.isInteger(i.counted) || i.counted < 0) fail("La cantidad contada debe ser un entero mayor o igual a 0");
   const p = getProduct(db, i.productId);
   const row = getRow(db, i.productId, i.locationId);
@@ -249,7 +249,7 @@ export function rejectReconciliation(db: DB, id: string, reason: string, note: s
 }
 
 // ---------- Losses ----------
-export function registerLoss(db: DB, i: { productId: string; locationId: string; quantity: number; reason: string; evidence: string; note?: string }) {
+export function registerLoss(db: DB, i: { productId: string; locationId: string; quantity: number; reason: string; evidence: string; note?: string | undefined }) {
   assertQty(i.quantity);
   if (!i.reason) fail("Seleccione un motivo");
   if (!i.evidence.trim()) fail("Describa la evidencia");

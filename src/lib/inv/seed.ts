@@ -67,8 +67,8 @@ export function buildSeed(): DB {
     // Sales / outputs in stores
     const stores = ["norte", "centro", "sur"];
     for (let k = 0; k < 45; k++) {
-      const p = db.products[Math.floor(r() * db.products.length)];
-      const loc = stores[Math.floor(r() * 3)];
+      const p = db.products[Math.floor(r() * db.products.length)]!;
+      const loc = stores[Math.floor(r() * 3)]!;
       as("Encargado de almacén", daysAgo(28 - Math.floor(k / 2), 10 + (k % 8)), () => {
         const row = L.getRow(db, p.id, loc);
         const q = Math.min(L.available(row) - 1, Math.max(1, Math.round(p.minStock * (0.1 + r() * 0.4))));
@@ -103,10 +103,10 @@ export function buildSeed(): DB {
       const c = L.registerCount(db, { productId: pid, locationId: loc, counted: row.stock + diff, note: "Conteo cíclico" });
       recIds.push(c.reconciliationId!);
     }));
-    as("Supervisor", daysAgo(13), () => L.approveReconciliation(db, recIds[0], "Error de registro", "Salida no digitada"));
-    as("Supervisor", daysAgo(9), () => L.approveReconciliation(db, recIds[1], "Movimiento no registrado", "Devolución de cliente no ingresada"));
-    as("Supervisor", daysAgo(5), () => L.rejectReconciliation(db, recIds[2], "Conteo incorrecto", "Se solicita reconteo con dos operarios"));
-    as("Supervisor", daysAgo(1), () => L.startReview(db, recIds[3]));
+    as("Supervisor", daysAgo(13), () => L.approveReconciliation(db, recIds[0]!, "Error de registro", "Salida no digitada"));
+    as("Supervisor", daysAgo(9), () => L.approveReconciliation(db, recIds[1]!, "Movimiento no registrado", "Devolución de cliente no ingresada"));
+    as("Supervisor", daysAgo(5), () => L.rejectReconciliation(db, recIds[2]!, "Conteo incorrecto", "Se solicita reconteo con dos operarios"));
+    as("Supervisor", daysAgo(1), () => L.startReview(db, recIds[3]!));
     L.setClock(null);
     L.syncTransferAlerts(db);
   } finally { L.setClock(null); }

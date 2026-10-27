@@ -8,9 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Field, fmtDate, locationOptions, PageHeader, Panel, Pill, productOptions, Select, TableWrap } from "@/components/inv/ui";
 
-type Search = { productId?: string; locationId?: string };
+type Search = { productId?: string | undefined; locationId?: string | undefined };
 export const Route = createFileRoute("/conteos")({
-  validateSearch: (s: Record<string, unknown>): Search => ({
+  validateSearch: (s: { productId?: unknown; locationId?: unknown; toId?: unknown; qty?: unknown }): Search => ({
     productId: typeof s.productId === "string" ? s.productId : undefined,
     locationId: typeof s.locationId === "string" ? s.locationId : undefined,
   }),
