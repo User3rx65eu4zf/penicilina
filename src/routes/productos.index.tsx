@@ -21,8 +21,8 @@ function ProductDialog({ db, product, open, onClose }: { db: DB; product: Produc
   const [f, setF] = useState<ProductInput>(product ?? empty(db));
   const set = <K extends keyof ProductInput>(k: K, v: ProductInput[K]) => setF((x) => ({ ...x, [k]: v }));
   const submit = () => {
-    const ok = run((d) => (product ? updateProduct(d, product.id, f) : createProduct(d, f)), product ? "Producto actualizado" : "Producto creado");
-    if (ok !== undefined || product) { if (ok !== undefined || product) onClose(); }
+    const ok = run((d) => { if (product) updateProduct(d, product.id, f); else createProduct(d, f); return true; }, product ? "Producto actualizado" : "Producto creado");
+    if (ok) onClose();
   };
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
