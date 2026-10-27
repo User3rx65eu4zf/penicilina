@@ -10,33 +10,193 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlertasRouteImport } from './routes/alertas'
+import { Route as AuditoriaRouteImport } from './routes/auditoria'
+import { Route as ConciliacionesRouteImport } from './routes/conciliaciones'
+import { Route as ConteosRouteImport } from './routes/conteos'
+import { Route as InventarioRouteImport } from './routes/inventario'
+import { Route as KardexRouteImport } from './routes/kardex'
+import { Route as MermasRouteImport } from './routes/mermas'
+import { Route as MovimientosRouteImport } from './routes/movimientos'
+import { Route as ReportesRouteImport } from './routes/reportes'
+import { Route as TransferenciasRouteImport } from './routes/transferencias'
+import { Route as ProductosIndexRouteImport } from './routes/productos.index'
+import { Route as ProductosIdRouteImport } from './routes/productos.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AlertasRoute = AlertasRouteImport.update({
+  id: '/alertas',
+  path: '/alertas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditoriaRoute = AuditoriaRouteImport.update({
+  id: '/auditoria',
+  path: '/auditoria',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConciliacionesRoute = ConciliacionesRouteImport.update({
+  id: '/conciliaciones',
+  path: '/conciliaciones',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConteosRoute = ConteosRouteImport.update({
+  id: '/conteos',
+  path: '/conteos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InventarioRoute = InventarioRouteImport.update({
+  id: '/inventario',
+  path: '/inventario',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KardexRoute = KardexRouteImport.update({
+  id: '/kardex',
+  path: '/kardex',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MermasRoute = MermasRouteImport.update({
+  id: '/mermas',
+  path: '/mermas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MovimientosRoute = MovimientosRouteImport.update({
+  id: '/movimientos',
+  path: '/movimientos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportesRoute = ReportesRouteImport.update({
+  id: '/reportes',
+  path: '/reportes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TransferenciasRoute = TransferenciasRouteImport.update({
+  id: '/transferencias',
+  path: '/transferencias',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductosIndexRoute = ProductosIndexRouteImport.update({
+  id: '/productos/',
+  path: '/productos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductosIdRoute = ProductosIdRouteImport.update({
+  id: '/productos/$id',
+  path: '/productos/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/alertas': typeof AlertasRoute
+  '/auditoria': typeof AuditoriaRoute
+  '/conciliaciones': typeof ConciliacionesRoute
+  '/conteos': typeof ConteosRoute
+  '/inventario': typeof InventarioRoute
+  '/kardex': typeof KardexRoute
+  '/mermas': typeof MermasRoute
+  '/movimientos': typeof MovimientosRoute
+  '/reportes': typeof ReportesRoute
+  '/transferencias': typeof TransferenciasRoute
+  '/productos/$id': typeof ProductosIdRoute
+  '/productos/': typeof ProductosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/alertas': typeof AlertasRoute
+  '/auditoria': typeof AuditoriaRoute
+  '/conciliaciones': typeof ConciliacionesRoute
+  '/conteos': typeof ConteosRoute
+  '/inventario': typeof InventarioRoute
+  '/kardex': typeof KardexRoute
+  '/mermas': typeof MermasRoute
+  '/movimientos': typeof MovimientosRoute
+  '/reportes': typeof ReportesRoute
+  '/transferencias': typeof TransferenciasRoute
+  '/productos/$id': typeof ProductosIdRoute
+  '/productos': typeof ProductosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/alertas': typeof AlertasRoute
+  '/auditoria': typeof AuditoriaRoute
+  '/conciliaciones': typeof ConciliacionesRoute
+  '/conteos': typeof ConteosRoute
+  '/inventario': typeof InventarioRoute
+  '/kardex': typeof KardexRoute
+  '/mermas': typeof MermasRoute
+  '/movimientos': typeof MovimientosRoute
+  '/reportes': typeof ReportesRoute
+  '/transferencias': typeof TransferenciasRoute
+  '/productos/$id': typeof ProductosIdRoute
+  '/productos/': typeof ProductosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/alertas'
+    | '/auditoria'
+    | '/conciliaciones'
+    | '/conteos'
+    | '/inventario'
+    | '/kardex'
+    | '/mermas'
+    | '/movimientos'
+    | '/reportes'
+    | '/transferencias'
+    | '/productos/$id'
+    | '/productos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/alertas'
+    | '/auditoria'
+    | '/conciliaciones'
+    | '/conteos'
+    | '/inventario'
+    | '/kardex'
+    | '/mermas'
+    | '/movimientos'
+    | '/reportes'
+    | '/transferencias'
+    | '/productos/$id'
+    | '/productos'
+  id:
+    | '__root__'
+    | '/'
+    | '/alertas'
+    | '/auditoria'
+    | '/conciliaciones'
+    | '/conteos'
+    | '/inventario'
+    | '/kardex'
+    | '/mermas'
+    | '/movimientos'
+    | '/reportes'
+    | '/transferencias'
+    | '/productos/$id'
+    | '/productos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlertasRoute: typeof AlertasRoute
+  AuditoriaRoute: typeof AuditoriaRoute
+  ConciliacionesRoute: typeof ConciliacionesRoute
+  ConteosRoute: typeof ConteosRoute
+  InventarioRoute: typeof InventarioRoute
+  KardexRoute: typeof KardexRoute
+  MermasRoute: typeof MermasRoute
+  MovimientosRoute: typeof MovimientosRoute
+  ReportesRoute: typeof ReportesRoute
+  TransferenciasRoute: typeof TransferenciasRoute
+  ProductosIdRoute: typeof ProductosIdRoute
+  ProductosIndexRoute: typeof ProductosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +208,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/alertas': {
+      id: '/alertas'
+      path: '/alertas'
+      fullPath: '/alertas'
+      preLoaderRoute: typeof AlertasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auditoria': {
+      id: '/auditoria'
+      path: '/auditoria'
+      fullPath: '/auditoria'
+      preLoaderRoute: typeof AuditoriaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conciliaciones': {
+      id: '/conciliaciones'
+      path: '/conciliaciones'
+      fullPath: '/conciliaciones'
+      preLoaderRoute: typeof ConciliacionesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conteos': {
+      id: '/conteos'
+      path: '/conteos'
+      fullPath: '/conteos'
+      preLoaderRoute: typeof ConteosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inventario': {
+      id: '/inventario'
+      path: '/inventario'
+      fullPath: '/inventario'
+      preLoaderRoute: typeof InventarioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kardex': {
+      id: '/kardex'
+      path: '/kardex'
+      fullPath: '/kardex'
+      preLoaderRoute: typeof KardexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mermas': {
+      id: '/mermas'
+      path: '/mermas'
+      fullPath: '/mermas'
+      preLoaderRoute: typeof MermasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/movimientos': {
+      id: '/movimientos'
+      path: '/movimientos'
+      fullPath: '/movimientos'
+      preLoaderRoute: typeof MovimientosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reportes': {
+      id: '/reportes'
+      path: '/reportes'
+      fullPath: '/reportes'
+      preLoaderRoute: typeof ReportesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/transferencias': {
+      id: '/transferencias'
+      path: '/transferencias'
+      fullPath: '/transferencias'
+      preLoaderRoute: typeof TransferenciasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/productos/': {
+      id: '/productos/'
+      path: '/productos'
+      fullPath: '/productos/'
+      preLoaderRoute: typeof ProductosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/productos/$id': {
+      id: '/productos/$id'
+      path: '/productos/$id'
+      fullPath: '/productos/$id'
+      preLoaderRoute: typeof ProductosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlertasRoute: AlertasRoute,
+  AuditoriaRoute: AuditoriaRoute,
+  ConciliacionesRoute: ConciliacionesRoute,
+  ConteosRoute: ConteosRoute,
+  InventarioRoute: InventarioRoute,
+  KardexRoute: KardexRoute,
+  MermasRoute: MermasRoute,
+  MovimientosRoute: MovimientosRoute,
+  ReportesRoute: ReportesRoute,
+  TransferenciasRoute: TransferenciasRoute,
+  ProductosIdRoute: ProductosIdRoute,
+  ProductosIndexRoute: ProductosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
