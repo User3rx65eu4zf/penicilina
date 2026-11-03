@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   LayoutDashboard, Package, Warehouse, ArrowLeftRight, Truck, ClipboardCheck, Scale, Trash2, Bell,
-  BookOpen, FileBarChart, ShieldCheck, RotateCcw,
+  BookOpen, FileBarChart, ShieldCheck, RotateCcw, Gauge,
 } from "lucide-react";
 import { useDB, run, resetDemo } from "@/lib/inv/store";
 import { ROLES, USERS, type Role } from "@/lib/inv/types";

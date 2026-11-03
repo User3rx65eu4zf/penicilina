@@ -244,12 +244,7 @@ function QualityDashboard() {
       </div>
 
       <div className="mt-6 space-y-6">
-        <Panel
-          title={
-            undefined
-          }
-          className="overflow-hidden"
-        >
+        <Panel>
           <div className="mb-4 flex items-center gap-2">
             <Gauge className="h-4 w-4 text-primary" />
             <h2 className="text-sm font-semibold">Indicadores del producto software</h2>
