@@ -28,7 +28,7 @@ const C1 = "var(--chart-1)";
 const C2 = "var(--chart-2)";
 const C3 = "var(--chart-3)";
 const BAD = "var(--destructive)";
-const OK = "var(--success)";
+
 
 // ---------- Datos de muestra (ilustrativos para la presentación) ----------
 const latency = Array.from({ length: 24 }, (_, h) => {
