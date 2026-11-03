@@ -69,7 +69,7 @@ const requirements = [
 ];
 
 // ---------- UI ----------
-function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
+function Card({ children, className = "" }: { children: ReactNode; className?: string | undefined }) {
   return <div className={`rounded-xl border border-border bg-card p-5 shadow-sm ${className}`}>{children}</div>;
 }
 
