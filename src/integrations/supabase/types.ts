@@ -14,13 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      inventory_state: {
+        Row: {
+          data: Json | null
+          id: number
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          data?: Json | null
+          id?: number
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          data?: Json | null
+          id?: number
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      operation_log: {
+        Row: {
+          action: string
+          created_at: string
+          duration_ms: number
+          error: string | null
+          id: string
+          ok: boolean
+          role: string
+          user_name: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          duration_ms: number
+          error?: string | null
+          id?: string
+          ok: boolean
+          role: string
+          user_name: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          duration_ms?: number
+          error?: string | null
+          id?: string
+          ok?: boolean
+          role?: string
+          user_name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      save_inventory_state: {
+        Args: { _data: Json; _expected: number }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never
