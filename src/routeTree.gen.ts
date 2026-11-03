@@ -14,6 +14,7 @@ import { Route as AlertasRouteImport } from './routes/alertas'
 import { Route as AuditoriaRouteImport } from './routes/auditoria'
 import { Route as ConciliacionesRouteImport } from './routes/conciliaciones'
 import { Route as ConteosRouteImport } from './routes/conteos'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as InventarioRouteImport } from './routes/inventario'
 import { Route as KardexRouteImport } from './routes/kardex'
 import { Route as MermasRouteImport } from './routes/mermas'
@@ -46,6 +47,11 @@ const ConciliacionesRoute = ConciliacionesRouteImport.update({
 const ConteosRoute = ConteosRouteImport.update({
   id: '/conteos',
   path: '/conteos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InventarioRoute = InventarioRouteImport.update({
@@ -95,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/auditoria': typeof AuditoriaRoute
   '/conciliaciones': typeof ConciliacionesRoute
   '/conteos': typeof ConteosRoute
+  '/dashboard': typeof DashboardRoute
   '/inventario': typeof InventarioRoute
   '/kardex': typeof KardexRoute
   '/mermas': typeof MermasRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByTo {
   '/auditoria': typeof AuditoriaRoute
   '/conciliaciones': typeof ConciliacionesRoute
   '/conteos': typeof ConteosRoute
+  '/dashboard': typeof DashboardRoute
   '/inventario': typeof InventarioRoute
   '/kardex': typeof KardexRoute
   '/mermas': typeof MermasRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   '/auditoria': typeof AuditoriaRoute
   '/conciliaciones': typeof ConciliacionesRoute
   '/conteos': typeof ConteosRoute
+  '/dashboard': typeof DashboardRoute
   '/inventario': typeof InventarioRoute
   '/kardex': typeof KardexRoute
   '/mermas': typeof MermasRoute
@@ -143,6 +152,7 @@ export interface FileRouteTypes {
     | '/auditoria'
     | '/conciliaciones'
     | '/conteos'
+    | '/dashboard'
     | '/inventario'
     | '/kardex'
     | '/mermas'
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/auditoria'
     | '/conciliaciones'
     | '/conteos'
+    | '/dashboard'
     | '/inventario'
     | '/kardex'
     | '/mermas'
@@ -173,6 +184,7 @@ export interface FileRouteTypes {
     | '/auditoria'
     | '/conciliaciones'
     | '/conteos'
+    | '/dashboard'
     | '/inventario'
     | '/kardex'
     | '/mermas'
@@ -189,6 +201,7 @@ export interface RootRouteChildren {
   AuditoriaRoute: typeof AuditoriaRoute
   ConciliacionesRoute: typeof ConciliacionesRoute
   ConteosRoute: typeof ConteosRoute
+  DashboardRoute: typeof DashboardRoute
   InventarioRoute: typeof InventarioRoute
   KardexRoute: typeof KardexRoute
   MermasRoute: typeof MermasRoute
@@ -234,6 +247,13 @@ declare module '@tanstack/react-router' {
       path: '/conteos'
       fullPath: '/conteos'
       preLoaderRoute: typeof ConteosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inventario': {
@@ -301,6 +321,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuditoriaRoute: AuditoriaRoute,
   ConciliacionesRoute: ConciliacionesRoute,
   ConteosRoute: ConteosRoute,
+  DashboardRoute: DashboardRoute,
   InventarioRoute: InventarioRoute,
   KardexRoute: KardexRoute,
   MermasRoute: MermasRoute,
