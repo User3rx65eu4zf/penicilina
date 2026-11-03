@@ -229,7 +229,7 @@ function ProcessTab() {
               <Tooltip {...tip} />
               <Legend wrapperStyle={{ fontSize: 12 }} />
               <Radar name="Actual" dataKey="actual" stroke={C1} fill={C1} fillOpacity={0.35} />
-              <Radar name="Meta" dataKey="meta" stroke={OK} fill="none" strokeDasharray="4 4" />
+              <Radar name="Meta" dataKey="meta" stroke={C2} fill="none" strokeDasharray="4 4" />
             </RadarChart>
           </ResponsiveContainer>
         </ChartCard>
