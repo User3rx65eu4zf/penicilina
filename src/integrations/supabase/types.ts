@@ -73,6 +73,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      save_inventory_operation: {
+        Args: {
+          _action: string
+          _data: Json
+          _duration: number
+          _expected: number
+        }
+        Returns: number
+      }
       save_inventory_state: {
         Args: { _data: Json; _expected: number }
         Returns: number
