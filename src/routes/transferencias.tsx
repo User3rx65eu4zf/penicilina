@@ -23,14 +23,18 @@ export const Route = createFileRoute("/transferencias")({
 function Transferencias() {
   const db = useDB();
   const s = Route.useSearch();
-  const cd = db.locations.find((l) => l.type === "CD")!;
-  const [f, setF] = useState({ productId: s.productId ?? "", fromId: cd.id, toId: s.toId ?? "", quantity: s.qty ? String(s.qty) : "", note: "" });
+  const cd = db.locations.find((l) => l.type === "CD");
+  const [f, setF] = useState({ productId: s.productId ?? "", fromId: cd?.id ?? '', toId: s.toId ?? "", quantity: s.qty ? String(s.qty) : "", note: "" });
   const [fs, setFs] = useState("");
   const row = f.productId && f.fromId ? getRow(db, f.productId, f.fromId) : null;
   const dest = f.productId && f.toId ? getRow(db, f.productId, f.toId) : null;
-  const submit = () => {
+  const [saving, setSaving] = useState(false);
+  const submit = async () => {
+    if (saving) return;
     if (!f.productId || !f.toId) return run(() => { throw new Error("Seleccione producto y destino"); });
-    const ok = run((d) => createTransfer(d, { ...f, quantity: Number(f.quantity) }), "Transferencia creada (Pendiente)");
+    setSaving(true);
+    const ok = await run((d) => createTransfer(d, { ...f, quantity: Number(f.quantity) }), "Transferencia creada (Pendiente)");
+    setSaving(false);
     if (ok) setF((x) => ({ ...x, quantity: "", note: "" }));
   };
   const list = db.transfers.filter((t) => !fs || t.status === fs);
@@ -46,7 +50,7 @@ function Transferencias() {
             {row && <p className="rounded-md bg-muted px-3 py-2 text-xs">Disponible en origen: <b>{available(row)}</b>{dest && <> · stock destino: <b>{dest.stock}</b></>}</p>}
             <Field label="Cantidad"><Input type="number" min={1} value={f.quantity} onChange={(e) => setF({ ...f, quantity: e.target.value })} /></Field>
             <Field label="Observación"><Textarea rows={2} value={f.note} onChange={(e) => setF({ ...f, note: e.target.value })} /></Field>
-            <Button onClick={submit}>Crear transferencia</Button>
+            <Button disabled={saving} onClick={submit}>{saving ? 'Guardando…' : 'Crear transferencia'}</Button>
           </div>
         </Panel>
         <Panel title="Transferencias" actions={<div className="w-44"><Select value={fs} onChange={setFs} placeholder="Todos los estados" options={["Pendiente", "En tránsito", "Completada", "Cancelada"].map((x) => ({ value: x, label: x }))} /></div>}>

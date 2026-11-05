@@ -22,8 +22,14 @@ function ResolveDialog({ r, onClose }: { r: Reconciliation; onClose: () => void 
   const [confirming, setConfirming] = useState(false);
   const row = getRow(db, r.productId, r.locationId);
   const d = r.originalDifference;
-  const approve = () => { if (run((x) => { approveReconciliation(x, r.id, reason, note); return true; }, "Conciliación aprobada e inventario ajustado")) onClose(); };
-  const reject = () => { if (run((x) => { rejectReconciliation(x, r.id, reason, note); return true; }, "Conciliación rechazada")) onClose(); };
+  const [saving, setSaving] = useState(false);
+  const resolve = async (approve: boolean) => {
+    if (saving) return;
+    setSaving(true);
+    const ok = await run((x) => { if (approve) approveReconciliation(x, r.id, reason, note); else rejectReconciliation(x, r.id, reason, note); return true; }, approve ? 'Conciliación aprobada e inventario ajustado' : 'Conciliación rechazada');
+    setSaving(false);
+    if (ok) onClose();
+  };
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
       <DialogContent>
@@ -45,8 +51,8 @@ function ResolveDialog({ r, onClose }: { r: Reconciliation; onClose: () => void 
           )}
         </div>
         <DialogFooter className="gap-2">
-          <Button variant="outline" onClick={reject}>Rechazar</Button>
-          {confirming ? <Button onClick={approve}>Sí, aplicar ajuste</Button>
+          <Button disabled={saving} variant="outline" onClick={() => void resolve(false)}>Rechazar</Button>
+          {confirming ? <Button disabled={saving} onClick={() => void resolve(true)}>{saving ? 'Guardando…' : 'Sí, aplicar ajuste'}</Button>
             : <Button onClick={() => (reason ? setConfirming(true) : run(() => { throw new Error("Seleccione un motivo"); }))}>Aprobar ajuste</Button>}
         </DialogFooter>
       </DialogContent>

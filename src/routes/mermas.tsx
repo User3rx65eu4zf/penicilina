@@ -19,9 +19,9 @@ function Mermas() {
   const db = useDB();
   const [f, setF] = useState({ productId: "", locationId: "", quantity: "", reason: "", evidence: "", note: "" });
   const row = f.productId && f.locationId ? getRow(db, f.productId, f.locationId) : null;
-  const submit = () => {
+  const submit = async () => {
     if (!row) return run(() => { throw new Error("Seleccione producto y sede"); });
-    if (run((d) => registerLoss(d, { ...f, quantity: Number(f.quantity) }), "Merma registrada")) setF((x) => ({ ...x, quantity: "", evidence: "", note: "" }));
+    if (await run((d) => registerLoss(d, { ...f, quantity: Number(f.quantity) }), "Merma registrada")) setF((x) => ({ ...x, quantity: "", evidence: "", note: "" }));
   };
   return (
     <>

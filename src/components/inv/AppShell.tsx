@@ -2,11 +2,11 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   LayoutDashboard, Package, Warehouse, ArrowLeftRight, Truck, ClipboardCheck, Scale, Trash2, Bell,
-  BookOpen, FileBarChart, ShieldCheck, RotateCcw, Gauge,
+  BookOpen, FileBarChart, ShieldCheck, Gauge,
 } from "lucide-react";
-import { useDB, run, resetDemo } from "@/lib/inv/store";
+import { useDB, connectShared, useSyncStatus, setLocalRole, shareLocalInventory, refreshShared } from "@/lib/inv/store";
 import { ROLES, USERS, type Role } from "@/lib/inv/types";
-import { Confirm } from "./ui";
+import { Button } from '@/components/ui/button';
 
 const NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -26,6 +26,7 @@ const NAV = [
 
 function Shell({ children }: { children: ReactNode }) {
   const db = useDB();
+  const status = useSyncStatus();
   const activeAlerts = db.alerts.filter((a) => a.status !== "Resuelta").length;
   return (
     <div className="flex min-h-screen">
@@ -47,11 +48,6 @@ function Shell({ children }: { children: ReactNode }) {
             </Link>
           ))}
         </nav>
-        <div className="border-t border-sidebar-border p-3">
-          <Confirm title="Restablecer datos de demostración" description="Se borrarán todos los cambios y se cargarán los datos iniciales."
-            onConfirm={resetDemo}
-            trigger={<button className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-xs hover:bg-sidebar-accent"><RotateCcw className="h-3.5 w-3.5" />Restablecer datos demo</button>} />
-        </div>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b bg-card/95 px-6 py-3 backdrop-blur">
@@ -59,14 +55,14 @@ function Shell({ children }: { children: ReactNode }) {
             <option value="">Ir a…</option>
             {NAV.map((n) => <option key={n.to} value={n.to}>{n.label}</option>)}
           </select>
-          <div className="hidden text-sm text-muted-foreground md:block">Usuario simulado — las acciones quedan registradas con su rol</div>
-          <div className="flex items-center gap-3">
+          <div role="status" className={`text-xs ${status === 'offline' ? 'text-destructive' : 'text-success'}`}>{status === 'saving' ? 'Guardando…' : status === 'offline' ? 'Sin conexión · no se guardarán cambios' : 'Inventario sincronizado'}</div>
+          <div className="flex min-w-0 flex-wrap items-center justify-end gap-3">
             <div className="text-right text-sm leading-tight">
               <div className="font-medium">{USERS[db.currentRole]}</div>
               <div className="text-xs text-muted-foreground">{db.currentRole}</div>
             </div>
             <select className="field-select w-auto" value={db.currentRole} aria-label="Rol"
-              onChange={(e) => run((d) => { d.currentRole = e.target.value as Role; }, `Ahora actúa como ${e.target.value}`)}>
+              onChange={(e) => setLocalRole(e.target.value as Role)}>
               {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
             </select>
           </div>
@@ -78,8 +74,18 @@ function Shell({ children }: { children: ReactNode }) {
 }
 
 export function AppShell({ children }: { children: ReactNode }) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">Cargando inventario…</div>;
+  const status = useSyncStatus();
+  const [connected, setConnected] = useState(false);
+  useEffect(() => { const cleanup = connectShared(); setConnected(true); return cleanup; }, []);
+  if (!connected || status === 'loading') return <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">Conectando inventario…</div>;
+  if (status === 'uninitialized') return <div className="flex min-h-screen items-center justify-center p-6"><div className="max-w-lg space-y-4"><h1 className="text-2xl font-semibold">Compartir inventario</h1><p className="text-muted-foreground">Todavía no hay un inventario compartido. Continúe desde el dispositivo donde registró sus movimientos.</p><p className="text-sm text-warning-foreground">Sin cuentas ni contraseña: cualquier persona con el enlace podrá consultar y modificar el inventario. Los nombres y roles siguen siendo simulados.</p><Button onClick={() => void shareLocalInventory()}>Compartir inventario de este dispositivo</Button></div></div>;
+  if (status === 'offline' && !connected) return null;
+  return <ConnectedShell>{children}</ConnectedShell>;
+}
+
+function ConnectedShell({ children }: { children: ReactNode }) {
+  const status = useSyncStatus();
+  // A first failed read has no snapshot to render. Retrying never creates local demo data.
+  if (status === 'offline') return <div className="flex min-h-screen items-center justify-center p-6"><div className="space-y-4"><h1 className="text-xl font-semibold">No se pudo conectar el inventario</h1><Button onClick={() => void refreshShared()}>Reintentar</Button></div></div>;
   return <Shell>{children}</Shell>;
 }
