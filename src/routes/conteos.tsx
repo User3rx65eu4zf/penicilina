@@ -15,7 +15,7 @@ export const Route = createFileRoute("/conteos")({
     locationId: typeof s.locationId === "string" ? s.locationId : undefined,
   }),
   head: () => ({ meta: [{ title: "Conteo físico · Inventario Vega" }, { name: "description", content: "Registro de inventarios físicos y diferencias contra el sistema." },
-    { property: "og:title", content: "Conteo físico · Inventario Vega" }, { property: "og:description", content: "Conteos físicos." }] }),
+    { property: "og:title", content: "Conteo físico · Inventario Vega" }, { property: "og:description", content: "Conteos físicos." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Conteos,
 });
 
@@ -25,11 +25,15 @@ function Conteos() {
   const [f, setF] = useState({ productId: s.productId ?? "", locationId: s.locationId ?? "", counted: "", note: "" });
   const row = f.productId && f.locationId ? getRow(db, f.productId, f.locationId) : null;
   const diff = row && f.counted !== "" ? Number(f.counted) - row.stock : null;
-  const submit = () => {
+  const [saving, setSaving] = useState(false);
+  const submit = async () => {
+    if (saving) return;
     if (!row) return run(() => { throw new Error("Seleccione producto y sede"); });
     if (f.counted === "") return run(() => { throw new Error("Ingrese la cantidad contada"); });
-    const c = run((d) => registerCount(d, { productId: f.productId, locationId: f.locationId, counted: Number(f.counted), note: f.note }),
+    setSaving(true);
+    const c = await run((d) => registerCount(d, { productId: f.productId, locationId: f.locationId, counted: Number(f.counted), note: f.note }),
       diff ? "Conteo registrado — se generó una conciliación pendiente" : "Conteo registrado sin diferencias");
+    setSaving(false);
     if (c) setF((x) => ({ ...x, counted: "", note: "" }));
   };
   return (
@@ -44,7 +48,7 @@ function Conteos() {
             <Field label="Cantidad contada"><Input type="number" min={0} value={f.counted} onChange={(e) => setF({ ...f, counted: e.target.value })} /></Field>
             {diff !== null && <p className="rounded-md bg-muted px-3 py-2 text-sm">Diferencia: <b className={diff === 0 ? "text-success" : "text-destructive"}>{diff > 0 ? "+" : ""}{diff}</b></p>}
             <Field label="Observación"><Textarea rows={2} value={f.note} onChange={(e) => setF({ ...f, note: e.target.value })} /></Field>
-            <Button onClick={submit}>Registrar conteo</Button>
+            <Button disabled={saving} onClick={submit}>{saving ? 'Guardando…' : 'Registrar conteo'}</Button>
           </div>
         </Panel>
         <Panel title="Conteos registrados">

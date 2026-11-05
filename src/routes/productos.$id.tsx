@@ -8,7 +8,7 @@ import { Empty, fmtDate, PageHeader, Panel, Pill, TableWrap } from "@/components
 
 export const Route = createFileRoute("/productos/$id")({
   head: () => ({ meta: [{ title: "Detalle de producto · Inventario Vega" }, { name: "description", content: "Stock por sede, alertas y movimientos del producto." },
-    { property: "og:title", content: "Detalle de producto · Inventario Vega" }, { property: "og:description", content: "Stock por sede del producto." }] }),
+    { property: "og:title", content: "Detalle de producto · Inventario Vega" }, { property: "og:description", content: "Stock por sede del producto." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: ProductDetail,
 });
 

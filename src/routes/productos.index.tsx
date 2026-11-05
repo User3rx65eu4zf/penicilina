@@ -11,7 +11,7 @@ import { Field, fmtDate, PageHeader, Panel, Pill, Select, TableWrap } from "@/co
 
 export const Route = createFileRoute("/productos/")({
   head: () => ({ meta: [{ title: "Productos · Inventario Vega" }, { name: "description", content: "Catálogo de productos con SKU único." },
-    { property: "og:title", content: "Productos · Inventario Vega" }, { property: "og:description", content: "Catálogo de productos." }] }),
+    { property: "og:title", content: "Productos · Inventario Vega" }, { property: "og:description", content: "Catálogo de productos." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Productos,
 });
 
@@ -20,8 +20,12 @@ const empty = (db: DB): ProductInput => ({ sku: "", name: "", categoryId: db.cat
 function ProductDialog({ db, product, open, onClose }: { db: DB; product: Product | null; open: boolean; onClose: () => void }) {
   const [f, setF] = useState<ProductInput>(product ?? empty(db));
   const set = <K extends keyof ProductInput>(k: K, v: ProductInput[K]) => setF((x) => ({ ...x, [k]: v }));
-  const submit = () => {
-    const ok = run((d) => { if (product) updateProduct(d, product.id, f); else createProduct(d, f); return true; }, product ? "Producto actualizado" : "Producto creado");
+  const [saving, setSaving] = useState(false);
+  const submit = async () => {
+    if (saving) return;
+    setSaving(true);
+    const ok = await run((d) => { if (product) updateProduct(d, product.id, f); else createProduct(d, f); return true; }, product ? "Producto actualizado" : "Producto creado");
+    setSaving(false);
     if (ok) onClose();
   };
   return (
@@ -37,7 +41,7 @@ function ProductDialog({ db, product, open, onClose }: { db: DB; product: Produc
           <Field label="Stock mínimo (por sede)"><Input type="number" min={0} value={f.minStock} onChange={(e) => set("minStock", Number(e.target.value))} /></Field>
           <Field label="Stock objetivo (por sede)"><Input type="number" min={0} value={f.targetStock} onChange={(e) => set("targetStock", Number(e.target.value))} /></Field>
         </div>
-        <DialogFooter><Button variant="outline" onClick={onClose}>Cancelar</Button><Button onClick={submit}>Guardar</Button></DialogFooter>
+        <DialogFooter><Button variant="outline" onClick={onClose}>Cancelar</Button><Button disabled={saving} onClick={submit}>{saving ? 'Guardando…' : 'Guardar'}</Button></DialogFooter>
       </DialogContent>
     </Dialog>
   );

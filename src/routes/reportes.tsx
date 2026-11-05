@@ -9,7 +9,7 @@ import { CsvButton, Field, fmtDate, PageHeader, Panel, Pill, TableWrap } from "@
 
 export const Route = createFileRoute("/reportes")({
   head: () => ({ meta: [{ title: "Reportes · Inventario Vega" }, { name: "description", content: "Reportes de stock, movimientos, diferencias, mermas y transferencias con exportación CSV." },
-    { property: "og:title", content: "Reportes · Inventario Vega" }, { property: "og:description", content: "Reportes de inventario." }] }),
+    { property: "og:title", content: "Reportes · Inventario Vega" }, { property: "og:description", content: "Reportes de inventario." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Reportes,
 });
 

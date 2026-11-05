@@ -12,6 +12,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Indicadores en tiempo real del inventario distribuido de Corporación Vega." },
       { property: "og:title", content: "Dashboard · Inventario Corporación Vega" },
       { property: "og:description", content: "Indicadores en tiempo real del inventario distribuido." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Dashboard,

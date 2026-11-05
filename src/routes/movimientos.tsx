@@ -11,7 +11,7 @@ import { CsvButton, Field, fmtDate, locationOptions, PageHeader, Panel, productO
 
 export const Route = createFileRoute("/movimientos")({
   head: () => ({ meta: [{ title: "Movimientos · Inventario Vega" }, { name: "description", content: "Registro de entradas, salidas y ajustes con saldo anterior y posterior." },
-    { property: "og:title", content: "Movimientos · Inventario Vega" }, { property: "og:description", content: "Entradas, salidas y ajustes." }] }),
+    { property: "og:title", content: "Movimientos · Inventario Vega" }, { property: "og:description", content: "Entradas, salidas y ajustes." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Movimientos,
 });
 
@@ -22,9 +22,13 @@ function Movimientos() {
   const [f, setF] = useState({ type: "Entrada" as MovementInput["type"], productId: "", locationId: "", quantity: "", reason: "", note: "" });
   const [ft, setFt] = useState("");
   const row = f.productId && f.locationId ? getRow(db, f.productId, f.locationId) : null;
-  const submit = () => {
+  const [saving, setSaving] = useState(false);
+  const submit = async () => {
+    if (saving) return;
     if (!f.productId || !f.locationId) return run(() => { throw new Error("Seleccione producto y sede"); });
-    const ok = run((d) => registerMovement(d, { ...f, quantity: Number(f.quantity) }), `${f.type} registrada`);
+    setSaving(true);
+    const ok = await run((d) => registerMovement(d, { ...f, quantity: Number(f.quantity) }), `${f.type} registrada`);
+    setSaving(false);
     if (ok) setF((x) => ({ ...x, quantity: "", reason: "", note: "" }));
   };
   const list = db.movements.filter((m) => !ft || m.type === ft);
@@ -41,7 +45,7 @@ function Movimientos() {
             <Field label="Cantidad"><Input type="number" min={1} value={f.quantity} onChange={(e) => setF({ ...f, quantity: e.target.value })} /></Field>
             <Field label="Motivo"><Input value={f.reason} onChange={(e) => setF({ ...f, reason: e.target.value })} placeholder="Ej. Recepción de proveedor" /></Field>
             <Field label="Observación"><Textarea value={f.note} onChange={(e) => setF({ ...f, note: e.target.value })} rows={2} /></Field>
-            <Button onClick={submit}>Registrar como {db.currentRole}</Button>
+            <Button disabled={saving} onClick={submit}>{saving ? 'Guardando…' : `Registrar como ${db.currentRole}`}</Button>
           </div>
         </Panel>
         <Panel title={`Historial (${list.length})`} actions={<div className="flex gap-2"><div className="w-44"><Select value={ft} onChange={setFt} placeholder="Todos los tipos" options={MOVEMENT_TYPES.map((t) => ({ value: t, label: t }))} /></div>

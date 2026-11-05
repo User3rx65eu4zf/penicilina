@@ -8,7 +8,7 @@ import { fmtDate, PageHeader, Panel, Pill, Select, TableWrap } from "@/component
 
 export const Route = createFileRoute("/alertas")({
   head: () => ({ meta: [{ title: "Alertas · Inventario Vega" }, { name: "description", content: "Alertas automáticas de stock, diferencias, mermas y transferencias." },
-    { property: "og:title", content: "Alertas · Inventario Vega" }, { property: "og:description", content: "Alertas automáticas." }] }),
+    { property: "og:title", content: "Alertas · Inventario Vega" }, { property: "og:description", content: "Alertas automáticas." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Alertas,
 });
 

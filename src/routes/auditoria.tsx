@@ -7,7 +7,7 @@ import { CsvButton, fmtDate, PageHeader, Panel, Select, TableWrap } from "@/comp
 
 export const Route = createFileRoute("/auditoria")({
   head: () => ({ meta: [{ title: "Auditoría · Inventario Vega" }, { name: "description", content: "Bitácora de acciones con usuario, rol y detalle." },
-    { property: "og:title", content: "Auditoría · Inventario Vega" }, { property: "og:description", content: "Bitácora de auditoría." }] }),
+    { property: "og:title", content: "Auditoría · Inventario Vega" }, { property: "og:description", content: "Bitácora de auditoría." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Auditoria,
 });
 
