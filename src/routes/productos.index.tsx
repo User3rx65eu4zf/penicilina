@@ -11,7 +11,7 @@ import { Field, fmtDate, PageHeader, Panel, Pill, Select, TableWrap } from "@/co
 
 export const Route = createFileRoute("/productos/")({
   head: () => ({ meta: [{ title: "Productos · Inventario Vega" }, { name: "description", content: "Catálogo de productos con SKU único." },
-    { property: "og:title", content: "Productos · Inventario Vega" }, { property: "og:description", content: "Catálogo de productos." }] }),
+    { property: "og:title", content: "Productos · Inventario Vega" }, { property: "og:description", content: "Catálogo de productos." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Productos,
 });
 

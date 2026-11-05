@@ -11,7 +11,7 @@ import { CsvButton, Field, fmtDate, locationOptions, PageHeader, Panel, productO
 
 export const Route = createFileRoute("/movimientos")({
   head: () => ({ meta: [{ title: "Movimientos · Inventario Vega" }, { name: "description", content: "Registro de entradas, salidas y ajustes con saldo anterior y posterior." },
-    { property: "og:title", content: "Movimientos · Inventario Vega" }, { property: "og:description", content: "Entradas, salidas y ajustes." }] }),
+    { property: "og:title", content: "Movimientos · Inventario Vega" }, { property: "og:description", content: "Entradas, salidas y ajustes." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Movimientos,
 });
 

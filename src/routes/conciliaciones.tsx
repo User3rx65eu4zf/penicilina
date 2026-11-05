@@ -11,7 +11,7 @@ import { Field, fmtDate, PageHeader, Panel, Pill, Select, TableWrap } from "@/co
 
 export const Route = createFileRoute("/conciliaciones")({
   head: () => ({ meta: [{ title: "Conciliación · Inventario Vega" }, { name: "description", content: "Revisión y aprobación de diferencias entre stock físico y sistema." },
-    { property: "og:title", content: "Conciliación · Inventario Vega" }, { property: "og:description", content: "Conciliación de inventario." }] }),
+    { property: "og:title", content: "Conciliación · Inventario Vega" }, { property: "og:description", content: "Conciliación de inventario." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Conciliaciones,
 });
 

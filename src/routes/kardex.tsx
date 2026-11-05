@@ -13,7 +13,7 @@ export const Route = createFileRoute("/kardex")({
     locationId: typeof s.locationId === "string" ? s.locationId : undefined,
   }),
   head: () => ({ meta: [{ title: "Kardex · Inventario Vega" }, { name: "description", content: "Kardex por producto y sede con saldos consistentes." },
-    { property: "og:title", content: "Kardex · Inventario Vega" }, { property: "og:description", content: "Kardex por producto y sede." }] }),
+    { property: "og:title", content: "Kardex · Inventario Vega" }, { property: "og:description", content: "Kardex por producto y sede." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Kardex,
 });
 

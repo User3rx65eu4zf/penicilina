@@ -15,7 +15,7 @@ export const Route = createFileRoute("/conteos")({
     locationId: typeof s.locationId === "string" ? s.locationId : undefined,
   }),
   head: () => ({ meta: [{ title: "Conteo físico · Inventario Vega" }, { name: "description", content: "Registro de inventarios físicos y diferencias contra el sistema." },
-    { property: "og:title", content: "Conteo físico · Inventario Vega" }, { property: "og:description", content: "Conteos físicos." }] }),
+    { property: "og:title", content: "Conteo físico · Inventario Vega" }, { property: "og:description", content: "Conteos físicos." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Conteos,
 });
 

@@ -11,7 +11,7 @@ import { Confirm, Field, fmtDate, locationOptions, PageHeader, Panel, productOpt
 
 export const Route = createFileRoute("/mermas")({
   head: () => ({ meta: [{ title: "Mermas · Inventario Vega" }, { name: "description", content: "Registro de mermas con evidencia y descuento de stock." },
-    { property: "og:title", content: "Mermas · Inventario Vega" }, { property: "og:description", content: "Registro de mermas." }] }),
+    { property: "og:title", content: "Mermas · Inventario Vega" }, { property: "og:description", content: "Registro de mermas." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Mermas,
 });
 

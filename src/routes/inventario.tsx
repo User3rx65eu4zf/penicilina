@@ -7,7 +7,7 @@ import { CsvButton, locationOptions, PageHeader, Panel, Pill, Select, TableWrap 
 
 export const Route = createFileRoute("/inventario")({
   head: () => ({ meta: [{ title: "Inventario por sede · Inventario Vega" }, { name: "description", content: "Stock por producto y sede con estado calculado." },
-    { property: "og:title", content: "Inventario por sede · Inventario Vega" }, { property: "og:description", content: "Stock por producto y sede." }] }),
+    { property: "og:title", content: "Inventario por sede · Inventario Vega" }, { property: "og:description", content: "Stock por producto y sede." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Inventario,
 });
 

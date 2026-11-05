@@ -16,7 +16,7 @@ export const Route = createFileRoute("/transferencias")({
     qty: typeof s.qty === "number" ? s.qty : undefined,
   }),
   head: () => ({ meta: [{ title: "Transferencias · Inventario Vega" }, { name: "description", content: "Flujo de transferencias: pendiente, en tránsito y completada." },
-    { property: "og:title", content: "Transferencias · Inventario Vega" }, { property: "og:description", content: "Transferencias entre sedes." }] }),
+    { property: "og:title", content: "Transferencias · Inventario Vega" }, { property: "og:description", content: "Transferencias entre sedes." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Transferencias,
 });
 
