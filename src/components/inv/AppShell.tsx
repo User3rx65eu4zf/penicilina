@@ -79,7 +79,6 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(() => { const cleanup = connectShared(); setConnected(true); return cleanup; }, []);
   if (!connected || status === 'loading') return <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">Conectando inventario…</div>;
   if (status === 'uninitialized') return <div className="flex min-h-screen items-center justify-center p-6"><div className="max-w-lg space-y-4"><h1 className="text-2xl font-semibold">Compartir inventario</h1><p className="text-muted-foreground">Todavía no hay un inventario compartido. Continúe desde el dispositivo donde registró sus movimientos.</p><p className="text-sm text-warning-foreground">Sin cuentas ni contraseña: cualquier persona con el enlace podrá consultar y modificar el inventario. Los nombres y roles siguen siendo simulados.</p><Button onClick={() => void shareLocalInventory()}>Compartir inventario de este dispositivo</Button></div></div>;
-  if (status === 'offline' && !connected) return null;
   return <ConnectedShell>{children}</ConnectedShell>;
 }
 

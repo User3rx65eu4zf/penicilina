@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -82,10 +82,12 @@ export const productOptions = (db: DB, onlyActive = true) =>
 export const locationOptions = (db: DB) => db.locations.map((l) => ({ value: l.id, label: l.name }));
 
 export function Confirm({ trigger, title, description, onConfirm, confirmLabel = "Confirmar" }: {
-  trigger: ReactNode; title: string; description: ReactNode; onConfirm: () => void; confirmLabel?: string;
+  trigger: ReactNode; title: string; description: ReactNode; onConfirm: () => unknown | Promise<unknown>; confirmLabel?: string;
 }) {
+  const [open, setOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={(value) => { if (!saving) setOpen(value); }}>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -93,8 +95,12 @@ export function Confirm({ trigger, title, description, onConfirm, confirmLabel =
           <AlertDialogDescription asChild><div>{description}</div></AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm}>{confirmLabel}</AlertDialogAction>
+          <AlertDialogCancel disabled={saving}>Cancelar</AlertDialogCancel>
+          <AlertDialogAction disabled={saving} onClick={async (event) => {
+            event.preventDefault();
+            setSaving(true);
+            try { await onConfirm(); setOpen(false); } finally { setSaving(false); }
+          }}>{saving ? 'Guardando…' : confirmLabel}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
